@@ -48,6 +48,8 @@ https://pyjwt.readthedocs.io/en/latest/
 
 decorators: https://realpython.com/primer-on-python-decorators/
 
+https://eddmann.com/posts/using-basic-auth-and-decorators-in-pythons-flask/
+
 ## Login
 ```
 curl -XPOST http://localhost:5000/api/v1/auth/login -d '{"username":"gfusca", "password":"123456"}' -H "Content-Type: application/json"
