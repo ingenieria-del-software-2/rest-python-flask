@@ -5,7 +5,7 @@ from src.auth.auth_exception import UserNotFoundException
 class UserService:
     def create_user(self, user_data, show_password=False):
         from src.app import mongo
-        user_data["password"] = _encrypt_password(user_data["password"])
+        user_data["password"] = self._encrypt_password(user_data["password"])
         inserted = mongo.db.user.insert_one(user_data)
         filtered_fields = {'_id': False }
         if not show_password:
@@ -27,7 +27,8 @@ class UserService:
             raise UserNotFoundException("User not found")
         return user
 
-    def is_valid_user(self, username, password):
+    @staticmethod
+    def is_valid_user(username, password):
         from src.app import mongo
         user = mongo.db.user.find_one({"username": username})
         return UserService.compare_password(user["password"], password)

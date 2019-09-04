@@ -7,6 +7,7 @@ from src.auth.auth_exception import UserExistsException, UserNotFoundException, 
 from src.auth.controllers.auth import auth_blueprint
 
 import src.settings
+from src.secret.controllers.secret import secret_blueprint
 
 app = Flask(__name__)
 
@@ -44,6 +45,8 @@ def user_error_handler(e):
 
 
 app.register_blueprint(auth_blueprint, url_prefix=f'{prefix}/auth')
+
+app.register_blueprint(secret_blueprint, url_prefix=f'{prefix}/secret')
 
 
 @app.route(f'{prefix}/ping', methods=['GET'])

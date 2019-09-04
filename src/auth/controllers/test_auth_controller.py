@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
 import json
+import copy
 
 from src.app import app, prefix
 from src.auth.services.auth_service import UserService
@@ -26,7 +27,7 @@ class AuthControllerTestCase(unittest.TestCase):
     @patch('src.auth.services.auth_service.UserService.compare_password')
     def test_success_login(self, compare_password_mock):
         compare_password_mock.return_value = True
-        with patch.object(UserService, 'get_user_by', return_value=mock_user):
+        with patch.object(UserService, 'get_user_by', return_value=copy.deepcopy(mock_user)):
             response = self.app.post(
                 f'{prefix}/auth/login',
                 data=json.dumps(mock_login),
@@ -50,11 +51,12 @@ class AuthControllerTestCase(unittest.TestCase):
     @patch('src.auth.services.auth_service.UserService.compare_password')
     def test_wrong_password_login(self, compare_password_mock):
         compare_password_mock.return_value = False
-        response = self.app.post(
-            f'{prefix}/auth/login',
-            data=json.dumps(mock_login),
-            content_type='application/json'
-        )
+        with patch.object(UserService, 'get_user_by', return_value=copy.deepcopy(mock_user)):
+            response = self.app.post(
+                f'{prefix}/auth/login',
+                data=json.dumps(mock_login),
+                content_type='application/json'
+            )
         assert response._status_code == 401
 
     def test_wrong_user_login(self):

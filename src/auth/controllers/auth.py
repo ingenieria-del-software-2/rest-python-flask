@@ -5,6 +5,7 @@ from src.auth.auth_exception import AccessDeniedException, UserNotFoundException
 from src.auth.schemas.user_schema import UserSchema
 from src.auth.schemas.login_schema import LoginSchema
 from src.auth.services.auth_service import UserService
+from src.jwt_handler import encode_data_to_jwt
 
 user_schema = UserSchema()
 login_schema = LoginSchema()
@@ -57,7 +58,4 @@ def register():
 
 
 def get_user_token(user_data):
-    import jwt
-    import os
-    token = jwt.encode(user_data, os.environ.get('JWT_SECRET', 'secret'), algorithm='HS256')
-    return str(token)
+    return encode_data_to_jwt(user_data)
