@@ -11,7 +11,7 @@ from src.secret.controllers.secret import secret_blueprint
 
 app = Flask(__name__)
 
-app.config["MONGO_URI"] = os.environ.get('MONGO_URL')
+app.config["MONGO_URI"] = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/db')
 
 print(os.environ.get('MONGO_URL'))
 
